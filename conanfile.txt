@@ -1,0 +1,10 @@
+[requires]
+fmt/11.0.2
+argparse/3.1
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[options]
+*:shared=False

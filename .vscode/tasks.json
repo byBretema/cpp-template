@@ -1,0 +1,65 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Debug",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/build.py"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Build the project in Debug using Default builder"
+        },
+        {
+            "label": "Build Release",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/build.py",
+                "-r",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Build the project in Release using Default builder"
+        },
+        {
+            "label": "Build Debug (Clean)",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/build.py",
+                "-c",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "detail": "Build the project in Debug using Default builder + Clean previous build"
+        },
+        {
+            "label": "Build Release (Clean)",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/build.py",
+                "-c",
+                "-r"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Build the project in Release using Default builder + Clean previous build"
+        }
+    ]
+}
