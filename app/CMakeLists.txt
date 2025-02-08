@@ -1,33 +1,42 @@
 cmake_minimum_required(VERSION 3.25)
 
-# Project
+#######################################
+# PROJECT
+#######################################
+
 project(${APP_PARENT_FOLDER})
 
-# Build as Debug by default
+#######################################
+# BUILD TYPE: Debug as default
+#######################################
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 
-# Output
+#######################################
+# OUTPUT
+#######################################
+
 if (NOT MSVC)
     set(EXTRA_FOLDER ${CMAKE_BUILD_TYPE})
 else()
     set(EXTRA_FOLDER "")
 endif()
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib/${EXTRA_FOLDER})
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib/${EXTRA_FOLDER})
+#TODO: #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib/${EXTRA_FOLDER})
+#TODO: #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib/${EXTRA_FOLDER})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/bin/${EXTRA_FOLDER})
 
-# Target
-add_executable(${PROJECT_NAME}
+#######################################
+# TARGET
+#######################################
 
-    Utils/base.hpp
-    Utils/args.hpp
-    Utils/args.cpp
+# Sources  (Check: https://blog.conan.io/2019/09/02/Deterministic-builds-with-C-C++.html)
+file(GLOB_RECURSE SRCS ${PROJECT_SOURCE_DIR} *.c *.cc *.cpp)
+file(GLOB_RECURSE HDRS ${PROJECT_SOURCE_DIR} *.h *.hh *.hpp)  # Header files to help some IDEs
+add_executable(${PROJECT_NAME} ${SRCS} ${HDRS})
 
-    main.cpp
-)
-
+# Properties
 set_target_properties(${PROJECT_NAME}
     PROPERTIES
         CMAKE_CXX_EXTENSIONS OFF
@@ -36,9 +45,8 @@ set_target_properties(${PROJECT_NAME}
         CMAKE_EXPORT_COMPILE_COMMANDS ON
 )
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR})
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Vendor)  # 3rd party no-conan libs
+# Includes
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 
-# Dependencies  (https://docs.conan.io/2/reference/tools/cmake/cmakedeps.html#generated-files)
+# Dependencies  (Check: https://docs.conan.io/2/reference/tools/cmake/cmakedeps.html#generated-files)
 target_link_libraries(${PROJECT_NAME} ${CONANDEPS_LEGACY})
